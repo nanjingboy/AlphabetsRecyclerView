@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="44dp"
-    android:paddingLeft="16dp"
-    android:background="@drawable/alphabets_recycler_view_divider">
+    android:layout_height="@dimen/fastScrollRecyclerViewHeaderHeight"
+    android:paddingLeft="@dimen/fastScrollRecyclerViewItemPaddingLeft"
+    android:paddingRight="@dimen/fastScrollRecyclerViewItemPaddingRight"
+    android:background="@color/colorFastScrollRecyclerViewHeader">
     <TextView
         android:id="@+id/titleView"
         android:gravity="center_vertical"

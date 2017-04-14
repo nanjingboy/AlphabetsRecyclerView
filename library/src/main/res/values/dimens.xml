@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fastScrollRecyclerViewHeaderHeight">22dp</dimen>
+    <dimen name="fastScrollRecyclerViewItemHeight">44dp</dimen>
+    <dimen name="fastScrollRecyclerViewItemPaddingLeft">16dp</dimen>
+    <dimen name="fastScrollRecyclerViewItemPaddingRight">16dp</dimen>
+</resources>
