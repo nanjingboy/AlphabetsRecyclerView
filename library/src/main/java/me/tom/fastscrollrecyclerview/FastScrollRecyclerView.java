@@ -34,7 +34,7 @@ public class FastScrollRecyclerView extends RecyclerView {
     }
 
     static abstract class DefaultViewHolder extends RecyclerView.ViewHolder {
-        public DefaultViewHolder(View view) {
+        DefaultViewHolder(View view) {
             super(view);
         }
     }
