@@ -2,16 +2,20 @@ package me.tom.fastscrollrecyclerview;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
 
 abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extends FastScrollRecyclerView.GroupHeaderViewHolder, GroupItemViewHolder extends FastScrollRecyclerView.GroupItemViewHolder> extends RecyclerView.Adapter<FastScrollRecyclerView.DefaultViewHolder> {
 
-    protected final static int VIEW_TYPE_HEADER = -2;
-    protected final static int VIEW_TYPE_ITEM = -1;
+    private final static int VIEW_TYPE_HEADER = -2;
+    private final static int VIEW_TYPE_ITEM = -1;
 
-    protected SparseArray mGroupHeaderPositions = new SparseArray();
+    private SparseArray mGroupHeaderPositions = new SparseArray();
+
+    private IItemClickListener mItemClickListener;
+    private IItemLongClickListener mItemLongClickListener;
 
     @Override
     final public int getItemCount() {
@@ -47,7 +51,26 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
         if (viewType == VIEW_TYPE_HEADER) {
             return onCreateGroupHeaderViewHolder(parent);
         }
-        return onCreateGroupItemViewHolder(parent);
+
+        FastScrollRecyclerView.GroupItemViewHolder holder = onCreateGroupItemViewHolder(parent);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(view);
+                }
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (mItemLongClickListener != null) {
+                    return mItemLongClickListener.onItemLongClick(view);
+                }
+                return false;
+            }
+        });
+        return holder;
     }
 
     @Override
@@ -97,6 +120,22 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
         }
         int groupIndex = Integer.parseInt(mGroupHeaderPositions.get(headerPosition).toString());
         return new int[] { groupIndex, position - headerPosition - 1 };
+    }
+
+    void setOnItemClickListener(IItemClickListener listener) {
+        mItemClickListener = listener;
+    }
+
+    void setOnItemLongClickListener(IItemLongClickListener listener) {
+        mItemLongClickListener = listener;
+    }
+
+    interface IItemClickListener {
+        void onItemClick(View view);
+    }
+
+    interface IItemLongClickListener {
+        boolean onItemLongClick(View view);
     }
 
     abstract public int getGroupCount();

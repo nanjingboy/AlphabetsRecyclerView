@@ -3,10 +3,13 @@ package me.tom.fastscrollrecyclerview.sample;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 import me.tom.fastscrollrecyclerview.FastScrollRecyclerView;
 
@@ -21,24 +24,45 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ArrayList<HashMap<String, Object>> data = new ArrayList<>();
-        String[] keys = new String[] { "A", "B", "C", "D", "E", "X"};
-        for (int index = 0; index < keys.length;  index++) {
-            String key = keys[index];
+        List<String> indexTitles = Arrays.asList(new String[] { "A", "B", "C", "D", "E", "X"});
+        for (String indexTitle: indexTitles) {
             ArrayList<String> records = new ArrayList<>();
-            records.add(String.format("%s_1", key));
-            records.add(String.format("%s_2", key));
-            records.add(String.format("%s_3", key));
-            records.add(String.format("%s_4", key));
-            records.add(String.format("%s_5", key));
-            records.add(String.format("%s_6", key));
+            records.add(String.format("%s_1", indexTitle));
+            records.add(String.format("%s_2", indexTitle));
+            records.add(String.format("%s_3", indexTitle));
+            records.add(String.format("%s_4", indexTitle));
+            records.add(String.format("%s_5", indexTitle));
+            records.add(String.format("%s_6", indexTitle));
             HashMap<String, Object> item = new HashMap<>();
-            item.put("key", key);
+            item.put("key", indexTitle);
             item.put("records", records);
             data.add(item);
         }
         mAdapter = new DemoAdapter(this, data);
         mRecyclerView = (FastScrollRecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setIndexTitles(Arrays.asList(keys));
+        mRecyclerView.setIndexTitles(indexTitles);
+        mRecyclerView.setOnItemClickListener(new FastScrollRecyclerView.IItemClickListener() {
+            @Override
+            public void onItemClick(int groupPosition, int groupItemPosition) {
+                Toast.makeText(
+                        MainActivity.this,
+                        String.format(Locale.CHINA, "onItemClick\ngroupPosition: %d\ngroupItemPosition:%d", groupPosition, groupItemPosition),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
+
+        mRecyclerView.setOnItemLongClickListener(new FastScrollRecyclerView.IItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(int groupPosition, int groupItemPosition) {
+                Toast.makeText(
+                        MainActivity.this,
+                        String.format(Locale.CHINA, "onItemLongClick\ngroupPosition: %d\ngroupItemPosition:%d", groupPosition, groupItemPosition),
+                        Toast.LENGTH_SHORT
+                ).show();
+                return true;
+            }
+        });
     }
 }
