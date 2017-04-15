@@ -96,10 +96,9 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
         return groupItemPosition;
     }
 
-    int groupHeaderAbsolutePosition(int position) {
-        int index = mGroupHeaderPositions.indexOfValue(position);
-        if (index > -1) {
-            return mGroupHeaderPositions.keyAt(index);
+    int absolutePosition(int groupPosition, int groupItemPosition) {
+        if (mGroupHeaderPositions.indexOfValue(groupPosition) > -1) {
+            return mGroupHeaderPositions.keyAt(groupPosition) + groupItemPosition + 1;
         }
         return -1;
     }

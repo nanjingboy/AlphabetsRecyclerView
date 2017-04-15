@@ -42,9 +42,7 @@ public class FastScrollRecyclerView extends RelativeLayout {
                 } else {
                     mDialogTextView.setVisibility(VISIBLE);
                     mDialogTextView.setText(indexTitle);
-                    ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(
-                            mAdapter.groupHeaderAbsolutePosition(position), 0
-                    );
+                    scrollToPosition(position, -1);
                 }
             }
         });
@@ -86,6 +84,12 @@ public class FastScrollRecyclerView extends RelativeLayout {
 
     public void setOnItemLongClickListener(IItemLongClickListener listener) {
         mItemLongClickListener = listener;
+    }
+
+    public void scrollToPosition(int groupPosition, int groupItemPosition) {
+        ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(
+                mAdapter.absolutePosition(groupPosition, groupItemPosition), 0
+        );
     }
 
     static abstract class DefaultViewHolder extends RecyclerView.ViewHolder {
