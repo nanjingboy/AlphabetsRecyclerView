@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.nanjingboy:FastScrollRecyclerView:1.0'
+    compile 'com.github.nanjingboy:FastScrollRecyclerView:1.0.3'
 }
 ```
 
