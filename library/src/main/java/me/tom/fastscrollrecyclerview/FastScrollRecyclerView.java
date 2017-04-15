@@ -33,8 +33,6 @@ public class FastScrollRecyclerView extends RelativeLayout {
         inflate(context, R.layout.fast_scroll_recycler_view, this);
         mRecyclerView = (RecyclerView) getChildAt(0);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-
         mSliderBar = (FastScrollRecyclerViewSliderBar) getChildAt(1);
         mSliderBar.setListener(new FastScrollRecyclerViewSliderBar.IIndexChangedListener() {
             @Override
