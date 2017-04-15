@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"/>
+
+    <me.tom.fastscrollrecyclerview.FastScrollRecyclerViewSliderBar
+        android:layout_width="@dimen/fastScrollRecyclerViewSliderBarWidth"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:layout_width="@dimen/fastScrollRecyclerViewIndexDialogWidth"
+        android:layout_height="@dimen/fastScrollRecyclerViewIndexDialogHeight"
+        android:layout_centerInParent="true"
+        android:background="@color/colorFastScrollRecyclerViewOverlayBackground"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/fastScrollRecyclerViewIndexDialogFontSize"
+        android:visibility="gone"/>
+</merge>

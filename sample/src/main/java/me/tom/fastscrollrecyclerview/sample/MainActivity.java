@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 import me.tom.fastscrollrecyclerview.FastScrollRecyclerView;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private DemoAdapter mAdapter;
@@ -24,20 +23,22 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<HashMap<String, Object>> data = new ArrayList<>();
         String[] keys = new String[] { "A", "B", "C", "D", "E", "X"};
         for (int index = 0; index < keys.length;  index++) {
+            String key = keys[index];
             ArrayList<String> records = new ArrayList<>();
-            records.add(String.format("%s_1", keys[index]));
-            records.add(String.format("%s_2", keys[index]));
-            records.add(String.format("%s_3", keys[index]));
-            records.add(String.format("%s_4", keys[index]));
-            records.add(String.format("%s_5", keys[index]));
-            records.add(String.format("%s_6", keys[index]));
+            records.add(String.format("%s_1", key));
+            records.add(String.format("%s_2", key));
+            records.add(String.format("%s_3", key));
+            records.add(String.format("%s_4", key));
+            records.add(String.format("%s_5", key));
+            records.add(String.format("%s_6", key));
             HashMap<String, Object> item = new HashMap<>();
-            item.put("key", keys[index]);
+            item.put("key", key);
             item.put("records", records);
             data.add(item);
         }
         mAdapter = new DemoAdapter(this, data);
         mRecyclerView = (FastScrollRecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setIndexTitles(Arrays.asList(keys));
     }
 }

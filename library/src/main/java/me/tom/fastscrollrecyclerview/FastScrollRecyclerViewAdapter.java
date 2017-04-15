@@ -27,11 +27,10 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
 
     @Override
     final public long getItemId(int position) {
-        int groupPosition = mGroupHeaderPositions.indexOfKey(position);
-        if (groupPosition > -1) {
-            return getGroupId(groupPosition);
+        int[] positions = relativePositions(position);
+        if (positions[1] == -1) {
+            return getGroupId(positions[0]);
         }
-        int[] positions = parsePosition(position);
         return getGroupItemId(positions[0], positions[1]);
     }
 
@@ -53,11 +52,10 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
 
     @Override
     final public void onBindViewHolder(FastScrollRecyclerView.DefaultViewHolder holder, int position) {
-        int groupPosition = mGroupHeaderPositions.indexOfKey(position);
-        if (groupPosition > -1) {
-            onBindGroupHeaderViewHolder((GroupHeaderViewHolder) holder, groupPosition);
+        int[] positions = relativePositions(position);
+        if (positions[1] == -1) {
+            onBindGroupHeaderViewHolder((GroupHeaderViewHolder) holder, positions[0]);
         } else {
-            int[] positions = parsePosition(position);
             onBindGroupItemViewHolder((GroupItemViewHolder) holder, positions[0], positions[1]);
         }
     }
@@ -75,9 +73,19 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
         return groupItemPosition;
     }
 
-    protected int[] parsePosition(int position) {
-        synchronized (mGroupHeaderPositions) {
-            int headerPosition = -1;
+    int groupHeaderAbsolutePosition(int position) {
+        int index = mGroupHeaderPositions.indexOfValue(position);
+        if (index > -1) {
+            return mGroupHeaderPositions.keyAt(index);
+        }
+        return -1;
+    }
+
+    int[] relativePositions(int position) {
+        int headerPosition = -1;
+        if (mGroupHeaderPositions.indexOfKey(position) > -1) {
+            headerPosition = position;
+        } else {
             int count = mGroupHeaderPositions.size();
             for (int index = 0; index < count; index++) {
                 int groupHeaderPosition = mGroupHeaderPositions.keyAt(index);
@@ -86,9 +94,9 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
                 }
                 headerPosition = groupHeaderPosition;
             }
-            int groupIndex = Integer.parseInt(mGroupHeaderPositions.get(headerPosition).toString());
-            return new int[]{groupIndex, position - headerPosition - 1};
         }
+        int groupIndex = Integer.parseInt(mGroupHeaderPositions.get(headerPosition).toString());
+        return new int[] { groupIndex, position - headerPosition - 1 };
     }
 
     abstract public int getGroupCount();

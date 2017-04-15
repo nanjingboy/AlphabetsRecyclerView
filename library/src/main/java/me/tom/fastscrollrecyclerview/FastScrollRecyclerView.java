@@ -5,10 +5,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-public class FastScrollRecyclerView extends RecyclerView {
+import java.util.List;
 
-    private Context mContext;
+public class FastScrollRecyclerView extends RelativeLayout {
+
+    private RecyclerView mRecyclerView;
+    private TextView mDialogTextView;
+    private FastScrollRecyclerViewSliderBar mSliderBar;
+    private FastScrollRecyclerViewAdapter mAdapter;
 
     public FastScrollRecyclerView(Context context) {
         this(context, null);
@@ -20,17 +27,34 @@ public class FastScrollRecyclerView extends RecyclerView {
 
     public FastScrollRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mContext = context;
-        setLayoutManager(new LinearLayoutManager(mContext));
+        inflate(context, R.layout.fast_scroll_recycler_view, this);
+        mRecyclerView = (RecyclerView) getChildAt(0);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mSliderBar = (FastScrollRecyclerViewSliderBar) getChildAt(1);
+        mSliderBar.setListener(new FastScrollRecyclerViewSliderBar.IIndexChangedListener() {
+            @Override
+            public void onIndexChanged(int position, String indexTitle) {
+                if (indexTitle == null) {
+                    mDialogTextView.setVisibility(GONE);
+                } else {
+                    mDialogTextView.setVisibility(VISIBLE);
+                    mDialogTextView.setText(indexTitle);
+                    ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(
+                            mAdapter.groupHeaderAbsolutePosition(position), 0
+                    );
+                }
+            }
+        });
+        mDialogTextView = (TextView) getChildAt(2);
     }
 
-    @Override
-    public void setLayoutManager(LayoutManager layout) {
-        if (layout instanceof LinearLayoutManager) {
-            super.setLayoutManager(layout);
-        } else {
-            super.setLayoutManager(new LinearLayoutManager(mContext));
-        }
+    public void setAdapter(FastScrollRecyclerViewAdapter adapter) {
+        mAdapter = adapter;
+        mRecyclerView.setAdapter(adapter);
+    }
+
+    public void setIndexTitles(List<String> titles) {
+        mSliderBar.setIndexTitles(titles);
     }
 
     static abstract class DefaultViewHolder extends RecyclerView.ViewHolder {

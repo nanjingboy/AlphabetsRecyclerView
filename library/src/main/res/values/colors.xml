@@ -2,4 +2,8 @@
 <resources>
     <color name="colorFastScrollRecyclerViewDivider">#F9F8F9</color>
     <color name="colorFastScrollRecyclerViewHeader">#F2F2F2</color>
+
+    <color name="colorFastScrollRecyclerViewSlideBarText">#666666</color>
+    <color name="colorFastScrollRecyclerViewSlideBarSelectedText">#000000</color>
+    <color name="colorFastScrollRecyclerViewOverlayBackground">#66000000</color>
 </resources>

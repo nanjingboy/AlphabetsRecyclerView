@@ -4,4 +4,10 @@
     <dimen name="fastScrollRecyclerViewItemHeight">44dp</dimen>
     <dimen name="fastScrollRecyclerViewItemPaddingLeft">16dp</dimen>
     <dimen name="fastScrollRecyclerViewItemPaddingRight">16dp</dimen>
+    <dimen name="fastScrollRecyclerViewSliderBarWidth">30dp</dimen>
+    <dimen name="fastScrollRecyclerViewSliderBarFontSize">15sp</dimen>
+
+    <dimen name="fastScrollRecyclerViewIndexDialogWidth">50dp</dimen>
+    <dimen name="fastScrollRecyclerViewIndexDialogHeight">50dp</dimen>
+    <dimen name="fastScrollRecyclerViewIndexDialogFontSize">25sp</dimen>
 </resources>
