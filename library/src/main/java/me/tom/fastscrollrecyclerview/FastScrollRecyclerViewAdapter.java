@@ -9,13 +9,13 @@ import java.util.List;
 
 abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extends FastScrollRecyclerView.GroupHeaderViewHolder, GroupItemViewHolder extends FastScrollRecyclerView.GroupItemViewHolder> extends RecyclerView.Adapter<FastScrollRecyclerView.DefaultViewHolder> {
 
-    private final static int VIEW_TYPE_HEADER = -2;
-    private final static int VIEW_TYPE_ITEM = -1;
+    protected final static int VIEW_TYPE_HEADER = -2;
+    protected final static int VIEW_TYPE_ITEM = -1;
 
-    private SparseArray mGroupHeaderPositions = new SparseArray();
+    protected SparseArray mGroupHeaderPositions = new SparseArray();
 
-    private IItemClickListener mItemClickListener;
-    private IItemLongClickListener mItemLongClickListener;
+    protected IItemClickListener mItemClickListener;
+    protected IItemLongClickListener mItemLongClickListener;
 
     @Override
     final public int getItemCount() {

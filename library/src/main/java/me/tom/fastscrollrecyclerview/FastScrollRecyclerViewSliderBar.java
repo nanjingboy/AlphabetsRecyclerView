@@ -17,21 +17,21 @@ public class FastScrollRecyclerViewSliderBar extends View {
 
     public static final int MAX_INDEX_COUNT = 28;
 
-    private Paint mPaint;
+    protected Paint mPaint;
 
-    private int mHeight;
-    private int mWidth;
+    protected int mHeight;
+    protected int mWidth;
 
-    private int mTextColor;
-    private int mSelectedTextColor;
+    protected int mTextColor;
+    protected int mSelectedTextColor;
 
-    private Drawable mBackground;
-    private Drawable mSelectBackground;
+    protected Drawable mBackground;
+    protected Drawable mSelectBackground;
 
-    private IIndexChangedListener mListener;
+    protected IIndexChangedListener mListener;
 
-    private int mSelectedIndex = -1;
-    private List<String> mIndexTitles = new ArrayList<>();
+    protected int mSelectedIndex = -1;
+    protected List<String> mIndexTitles = new ArrayList<>();
 
     public interface IIndexChangedListener {
         void onIndexChanged(int position, String indexTitle);

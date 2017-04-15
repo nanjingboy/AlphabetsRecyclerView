@@ -12,13 +12,13 @@ import java.util.List;
 
 public class FastScrollRecyclerView extends RelativeLayout {
 
-    private RecyclerView mRecyclerView;
-    private TextView mDialogTextView;
-    private FastScrollRecyclerViewSliderBar mSliderBar;
-    private FastScrollRecyclerViewAdapter mAdapter;
+    protected RecyclerView mRecyclerView;
+    protected TextView mDialogTextView;
+    protected FastScrollRecyclerViewSliderBar mSliderBar;
+    protected FastScrollRecyclerViewAdapter mAdapter;
 
-    private IItemClickListener mItemClickListener;
-    private IItemLongClickListener mItemLongClickListener;
+    protected IItemClickListener mItemClickListener;
+    protected IItemLongClickListener mItemLongClickListener;
 
     public FastScrollRecyclerView(Context context) {
         this(context, null);
