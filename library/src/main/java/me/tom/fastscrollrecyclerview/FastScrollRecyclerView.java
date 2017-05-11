@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FastScrollRecyclerView extends RelativeLayout {
@@ -20,6 +21,9 @@ public class FastScrollRecyclerView extends RelativeLayout {
 
     protected IItemClickListener mItemClickListener;
     protected IItemLongClickListener mItemLongClickListener;
+
+    protected String mHeaderIndexTitle;
+    protected List<String> mIndexTitles = new ArrayList<>();
 
     public FastScrollRecyclerView(Context context) {
         this(context, null);
@@ -43,7 +47,15 @@ public class FastScrollRecyclerView extends RelativeLayout {
                 } else {
                     mDialogTextView.setVisibility(VISIBLE);
                     mDialogTextView.setText(indexTitle);
-                    scrollToPosition(position, -1);
+                    if (mHeaderIndexTitle != null && mHeaderIndexTitle.length() > 0) {
+                        if (position == 0) {
+                            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(0, 0);
+                        } else {
+                            scrollToPosition(position - 1, -1);
+                        }
+                    } else {
+                        scrollToPosition(position, -1);
+                    }
                 }
             }
         });
@@ -75,18 +87,6 @@ public class FastScrollRecyclerView extends RelativeLayout {
         mRecyclerView.setAdapter(adapter);
     }
 
-    public void setIndexTitles(List<String> titles) {
-        mSliderBar.setIndexTitles(titles);
-    }
-
-    public void setOnItemClickListener(IItemClickListener listener) {
-        mItemClickListener = listener;
-    }
-
-    public void setOnItemLongClickListener(IItemLongClickListener listener) {
-        mItemLongClickListener = listener;
-    }
-
     public void setSelection(final int groupPosition, final int groupItemPosition) {
         mRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -103,8 +103,43 @@ public class FastScrollRecyclerView extends RelativeLayout {
         );
     }
 
+    public void setHeaderViewIndexTitle(String title) {
+        mHeaderIndexTitle = title;
+        setSliderBarIndexTitles();
+    }
+
+    public void setIndexTitles(List<String> titles) {
+        mIndexTitles = titles;
+        setSliderBarIndexTitles();
+    }
+
+    public void setOnItemClickListener(IItemClickListener listener) {
+        mItemClickListener = listener;
+    }
+
+    public void setOnItemLongClickListener(IItemLongClickListener listener) {
+        mItemLongClickListener = listener;
+    }
+
+    protected void setSliderBarIndexTitles() {
+        ArrayList<String> titles = new ArrayList<>();
+        if (mHeaderIndexTitle != null && mHeaderIndexTitle.length() > 0) {
+            titles.add(mHeaderIndexTitle);
+        }
+        for (String title: mIndexTitles) {
+            titles.add(title);
+        }
+        mSliderBar.setIndexTitles(titles);
+    }
+
     static abstract class DefaultViewHolder extends RecyclerView.ViewHolder {
         DefaultViewHolder(View view) {
+            super(view);
+        }
+    }
+
+    public static class HeaderViewHolder extends DefaultViewHolder {
+        public HeaderViewHolder(View view) {
             super(view);
         }
     }

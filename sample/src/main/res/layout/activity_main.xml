@@ -3,9 +3,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <me.tom.fastscrollrecyclerview.FastScrollRecyclerView
-        android:id="@+id/recyclerView"
+    <Button
+        android:id="@+id/tryDemoButton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:text="Try Demo"/>
+
+
+    <Button
+        android:id="@+id/tryDemoWithHeaderButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Try Demo With Header"/>
 </LinearLayout>

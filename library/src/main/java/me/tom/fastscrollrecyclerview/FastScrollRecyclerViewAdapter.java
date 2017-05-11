@@ -9,17 +9,17 @@ import java.util.List;
 
 abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extends FastScrollRecyclerView.GroupHeaderViewHolder, GroupItemViewHolder extends FastScrollRecyclerView.GroupItemViewHolder> extends RecyclerView.Adapter<FastScrollRecyclerView.DefaultViewHolder> {
 
-    protected final static int VIEW_TYPE_HEADER = -2;
-    protected final static int VIEW_TYPE_ITEM = -1;
-
-    protected SparseArray mGroupHeaderPositions = new SparseArray();
+    protected final static int VIEW_TYPE_GROUP_HEADER = -2;
+    protected final static int VIEW_TYPE_GROUP_ITEM = -1;
 
     protected IItemClickListener mItemClickListener;
     protected IItemLongClickListener mItemLongClickListener;
 
+    protected SparseArray mGroupHeaderPositions = new SparseArray();
+
     @Override
-    final public int getItemCount() {
-        int itemCount = 0;
+    public int getItemCount() {
+        int itemCount = getStartPosition();
         int groupCount = getGroupCount();
         mGroupHeaderPositions.clear();
         for (int index = 0; index < groupCount; index++) {
@@ -30,7 +30,7 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
     }
 
     @Override
-    final public long getItemId(int position) {
+    public long getItemId(int position) {
         int[] positions = relativePositions(position);
         if (positions[1] == -1) {
             return getGroupId(positions[0]);
@@ -39,16 +39,16 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
     }
 
     @Override
-    final public int getItemViewType(int position) {
+    public int getItemViewType(int position) {
         if (mGroupHeaderPositions.indexOfKey(position) > -1) {
-            return VIEW_TYPE_HEADER;
+            return VIEW_TYPE_GROUP_HEADER;
         }
-        return VIEW_TYPE_ITEM;
+        return VIEW_TYPE_GROUP_ITEM;
     }
 
     @Override
-    final public FastScrollRecyclerView.DefaultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_HEADER) {
+    public FastScrollRecyclerView.DefaultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_GROUP_HEADER) {
             return onCreateGroupHeaderViewHolder(parent);
         }
 
@@ -74,7 +74,7 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
     }
 
     @Override
-    final public void onBindViewHolder(FastScrollRecyclerView.DefaultViewHolder holder, int position) {
+    public void onBindViewHolder(FastScrollRecyclerView.DefaultViewHolder holder, int position) {
         int[] positions = relativePositions(position);
         if (positions[1] == -1) {
             onBindGroupHeaderViewHolder((GroupHeaderViewHolder) holder, positions[0]);
@@ -84,7 +84,7 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
     }
 
     @Override
-    final public void onBindViewHolder(FastScrollRecyclerView.DefaultViewHolder holder, int position, List<Object> payloads) {
+    public void onBindViewHolder(FastScrollRecyclerView.DefaultViewHolder holder, int position, List<Object> payloads) {
         super.onBindViewHolder(holder, position, payloads);
     }
 
@@ -94,6 +94,10 @@ abstract public class FastScrollRecyclerViewAdapter<GroupHeaderViewHolder extend
 
     public long getGroupItemId(int groupPosition, int groupItemPosition) {
         return groupItemPosition;
+    }
+
+    int getStartPosition() {
+        return 0;
     }
 
     int absolutePosition(int groupPosition, int groupItemPosition) {

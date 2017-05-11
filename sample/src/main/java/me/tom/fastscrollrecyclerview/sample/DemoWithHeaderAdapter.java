@@ -1,6 +1,7 @@
 package me.tom.fastscrollrecyclerview.sample;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import me.tom.fastscrollrecyclerview.FastScrollRecyclerView;
-import me.tom.fastscrollrecyclerview.FastScrollRecyclerViewAdapter;
+import me.tom.fastscrollrecyclerview.FastScrollRecyclerViewWithHeaderAdapter;
 
-public class DemoAdapter extends FastScrollRecyclerViewAdapter<DemoAdapter.DemoGroupHeaderViewHolder, DemoAdapter.DemoGroupItemViewHolder> {
+public class DemoWithHeaderAdapter extends FastScrollRecyclerViewWithHeaderAdapter<DemoWithHeaderAdapter.DemoHeaderViewHolder, DemoWithHeaderAdapter.DemoGroupHeaderViewHolder, DemoWithHeaderAdapter.DemoGroupItemViewHolder> {
 
     private LayoutInflater mInflater;
 
     private ArrayList<HashMap<String, Object>> mData;
 
-    public DemoAdapter(Context context, ArrayList<HashMap<String, Object>> data) {
+    public DemoWithHeaderAdapter(Context context, ArrayList<HashMap<String, Object>> data) {
         mData = data;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -34,6 +35,11 @@ public class DemoAdapter extends FastScrollRecyclerViewAdapter<DemoAdapter.DemoG
     }
 
     @Override
+    public DemoHeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
+        return new DemoHeaderViewHolder(mInflater.inflate(R.layout.demo_header, parent, false));
+    }
+
+    @Override
     public DemoGroupHeaderViewHolder onCreateGroupHeaderViewHolder(ViewGroup parent) {
         return new DemoGroupHeaderViewHolder(mInflater.inflate(R.layout.demo_group_header, parent, false));
     }
@@ -41,6 +47,11 @@ public class DemoAdapter extends FastScrollRecyclerViewAdapter<DemoAdapter.DemoG
     @Override
     public DemoGroupItemViewHolder onCreateGroupItemViewHolder(ViewGroup parent) {
         return new DemoGroupItemViewHolder(mInflater.inflate(R.layout.demo_group_item, parent, false));
+    }
+
+    @Override
+    public void onBindHeaderViewHolder(DemoHeaderViewHolder holder) {
+
     }
 
     @Override
@@ -52,6 +63,13 @@ public class DemoAdapter extends FastScrollRecyclerViewAdapter<DemoAdapter.DemoG
     public void onBindGroupItemViewHolder(DemoGroupItemViewHolder holder, int groupPosition, int groupItemPosition) {
         ArrayList<String> records = ((ArrayList<String>) mData.get(groupPosition).get("records"));
         holder.titleView.setText(records.get(groupItemPosition));
+    }
+
+    public static class DemoHeaderViewHolder extends FastScrollRecyclerView.HeaderViewHolder {
+
+        public DemoHeaderViewHolder(View view) {
+            super(view);
+        }
     }
 
     public static class DemoGroupHeaderViewHolder extends FastScrollRecyclerView.GroupHeaderViewHolder {
