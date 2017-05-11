@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -84,6 +85,16 @@ public class FastScrollRecyclerView extends RelativeLayout {
 
     public void setOnItemLongClickListener(IItemLongClickListener listener) {
         mItemLongClickListener = listener;
+    }
+
+    public void setSelection(final int groupPosition, final int groupItemPosition) {
+        mRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                scrollToPosition(groupPosition, groupItemPosition);
+                mRecyclerView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     public void scrollToPosition(int groupPosition, int groupItemPosition) {
